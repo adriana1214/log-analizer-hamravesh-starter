@@ -1,27 +1,36 @@
 from collections import Counter #it helps to count ig
 from datetime import datetime
-from typing import Optional
+from typing import Optional #add the "none" thing ability 
 
-from .parser import LogEntry, parse_line
+from .parser import LogEntry, parse_line #importing the code i wrote for parsing each line individualy
 
 
-class LogAnalyzer:
+class LogAnalyzer: 
     def __init__(
         self,
         top_n: int = 10,
+        suspicious_401_threshold: int = 10,
         error_spike_threshold: float = 0.5,
-        ):
+        time_start: Optional[datetime] = None,
+        time_end: Optional[datetime] = None,
+    ):
         self.top_n = top_n
+        self.suspicious_401_threshold = suspicious_401_threshold
         self.error_spike_threshold = error_spike_threshold
+        self.time_start = time_start 
+        self.time_end = time_end 
         #counters we need 
         self.total_lines = 0
         self.parsed_count = 0
         self.malformed_count = 0
+        self.filtered_out_count = 0  
         self.unique_ips: set = set()
         self.endpoint_counts: Counter = Counter()
         self.status_counts: Counter = Counter()
         self.hourly_counts: Counter = Counter()
         self.hourly_5xx: Counter = Counter()
+        self.login_401_by_ip: Counter = Counter() 
+
         
 
     #procces the line +update the analyze object with right info
@@ -32,14 +41,23 @@ class LogAnalyzer:
         if entry is None:
             self.malformed_count += 1
             return
+        if self._is_outside_time_window(entry.time):# check if we are in the time window the admin desided to check
+            self.filtered_out_count += 1
+            return
 
         self.parsed_count += 1
         self._update_stats(entry)
 
+    def _is_outside_time_window(self, ts: datetime) -> bool:# this can be setted by the analyzer user "not nesesery"
+        if self.time_start is not None and ts < self.time_start:
+            return True
+        if self.time_end is not None and ts > self.time_end:
+            return True
+        return False
+    
 
-        return 
 
-    def _update_stats(self, entry: LogEntry) -> None:
+    def _update_stats(self, entry: LogEntry) -> None: #the func name is obvoise in update the stat OwO
         self.unique_ips.add(entry.ip)
         self.endpoint_counts[entry.path] += 1
         self.status_counts[entry.status] += 1
@@ -48,6 +66,8 @@ class LogAnalyzer:
         self.hourly_counts[hour_key] += 1
         if 500 <= entry.status < 600:
             self.hourly_5xx[hour_key] += 1
+        if entry.status == 401 and entry.path.startswith("/login"):
+            self.login_401_by_ip[entry.ip] += 1     
 
 
    
@@ -65,9 +85,16 @@ class LogAnalyzer:
 
     def hourly_distribution(self):
         return sorted(self.hourly_counts.items())
+    
 
-
-    def error_spikes(self):
+    def suspicious_ips(self): #identify IP addresses that exhibit brute-force attack patterns (asked as an extra task)
+        return [
+            (ip, count)
+            for ip, count in self.login_401_by_ip.most_common()
+            if count >= self.suspicious_401_threshold
+        ]
+    
+    def error_spikes(self): #Detect hourly periods with abnormally high 5xx error rates
         spikes = []
         for hour, total in sorted(self.hourly_counts.items()):
             fivexx = self.hourly_5xx.get(hour, 0)

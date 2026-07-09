@@ -1,9 +1,8 @@
-import re #importing regex helps us in patterns shi
+import re #importing regex helps in patterns 
 from datetime import datetime
 from typing import NamedTuple, Optional
-
 # pattern Combined Log Format:
-#   IP  ident  authuser  [time]  "method protocol"  status  size  "referrer"  "user-agent"
+#IP  ident  authuser  [time]  "method protocol"  status  size  "referrer"  "user-agent"
 
 LOG_PATTERN = re.compile(
     r'^(?P<ip>\S+) \S+ \S+ \[(?P<time>[^\]]+)\] '

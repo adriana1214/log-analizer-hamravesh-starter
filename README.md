@@ -52,7 +52,7 @@ IP  -  -  [time]  "method path protocol"  status  size  "referrer"  "user-agent"
 
 ---
 
-## 🚀 **Installation & Setup**
+## **Installation & Setup**
 
 ### 1. Clone the Repository
 
@@ -69,7 +69,7 @@ python3 -m log_analyzer.cli access.log
 
 ---
 
-## 📖 **Usage Guide**
+## **Usage Guide**
 
 ### Basic Usage
 
@@ -135,7 +135,7 @@ python3 -m log_analyzer.cli --help
 
 ---
 
-## 📊 **Sample Output**
+## **Sample Output**
 
 ```
 ========================================================
@@ -242,7 +242,7 @@ size = int(data["size"]) if data["size"] != "-" else 0
 
 ---
 
-## ⚙️ **Requirements**
+## **Requirements**
 
 - **Python 3.8** or higher
 - **No external packages** required
@@ -260,7 +260,7 @@ size = int(data["size"]) if data["size"] != "-" else 0
 
 ---
 
-## 🤖 **AI Usage Policy**
+## **AI Usage Policy**
 
 As per the task policy: This code was written using the assistance of an AI (deepseek) and documentation/Stack Overflow.
 
@@ -270,6 +270,6 @@ As per the task policy: This code was written using the assistance of an AI (dee
 
 ---
 
-## 🙏 **Acknowledgments**
+## **Acknowledgments**
 
 This project was written as the selection task for the **HamAmooz** course.

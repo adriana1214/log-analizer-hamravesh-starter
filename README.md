@@ -64,7 +64,7 @@ cd log-analyzer
 ### 2. Run (No external packages required)
 
 ```bash
-python3 -m log_analyzer.cli access.log
+python3 -m log_analyzer.cli access_log/access.log
 ```
 
 ---
@@ -74,43 +74,43 @@ python3 -m log_analyzer.cli access.log
 ### Basic Usage
 
 ```bash
-python3 -m log_analyzer.cli access.log
+python3 -m log_analyzer.cli access_log/access.log
 ```
 
 ### Compressed File (`.log.gz`)
 
 ```bash
-python3 -m log_analyzer.cli access.log.gz
+python3 -m log_analyzer.cli access_log/access.log.gz
 ```
 
 ### Custom Number of Top Endpoints
 
 ```bash
-python3 -m log_analyzer.cli access.log --top 5
+python3 -m log_analyzer.cli access_log/access.log --top 5
 ```
 
 ### JSON Output
 
 ```bash
-python3 -m log_analyzer.cli access.log --json
+python3 -m log_analyzer.cli access_log/access.log --json
 ```
 
 ### Time Range Filtering
 
 ```bash
-python3 -m log_analyzer.cli access.log --since 2026-06-01T00:00 --until 2026-06-30T23:59
+python3 -m log_analyzer.cli access_log/access.log --since 2026-06-01T00:00 --until 2026-06-30T23:59
 ```
 
 ### Brute Force Detection with Custom Threshold
 
 ```bash
-python3 -m log_analyzer.cli access.log --suspicious-threshold 3
+python3 -m log_analyzer.cli access_log/access.log --suspicious-threshold 3
 ```
 
 ### Error Spike Detection with Custom Threshold
 
 ```bash
-python3 -m log_analyzer.cli access.log --error-spike-threshold 0.3
+python3 -m log_analyzer.cli access_log/access.log --error-spike-threshold 0.3
 ```
 
 ### View All Options

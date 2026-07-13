@@ -57,7 +57,8 @@ IP  -  -  [time]  "method path protocol"  status  size  "referrer"  "user-agent"
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/[username]/log-analyzer.git
+ git clone https://github.com/adriana1214/log-analizer-hamravesh-starter
+
 cd log-analyzer
 ```
 
